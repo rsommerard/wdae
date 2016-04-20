@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private WifiP2pManager mManager;
     private WifiP2pManager.Channel mChannel;
-    private BroadcastReceiver mReceiver;
+    private WifiDirectBroadcastReceiver mReceiver;
     private IntentFilter mIntentFilter;
 
     @Override
