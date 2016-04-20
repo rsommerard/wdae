@@ -17,7 +17,7 @@ public class DiscoverPeers extends AsyncTask<Void, Void, Void> {
     private final int mSocketTimeout = 1000;
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Void doInBackground(final Void... params) {
         Log.d(WDAELib.TAG, "DiscoverPeers");
 
         Socket socket = new Socket();

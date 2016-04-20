@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Looper;
 
 import fr.inria.rsommerard.wdaelib.task.DiscoverPeers;
-import fr.inria.rsommerard.wdaelib.task.StopDiscovery;
+import fr.inria.rsommerard.wdaelib.task.RequestPeers;
 
 public class WifiP2pManager {
 
@@ -34,11 +34,13 @@ public class WifiP2pManager {
         listener.onSuccess();
 
         new DiscoverPeers().execute();
-        new StopDiscovery().execute();
     }
 
     public void requestPeers(final WifiP2pManager.Channel channel,
-                             final WifiP2pManager.PeerListListener listener) {}
+                             final WifiP2pManager.PeerListListener listener) {
+
+        new RequestPeers().execute(listener);
+    }
 
     public class Channel {}
 
