@@ -8,10 +8,17 @@ object Main extends App {
   while (true) {
     val socket = serverSocket.accept
 
-    val objectInputStream: ObjectInputStream = new ObjectInputStream(socket.getInputStream)
-    val request: String  = objectInputStream.readObject().toString()
+    val oIStream: ObjectInputStream = new ObjectInputStream(socket.getInputStream)
+    val request: String  = oIStream.readObject().toString()
 
     println(s"$request from " + socket.getLocalAddress + ":" + socket.getLocalPort)
+
+    request match {
+      case WDAELib.DISCOVER_PEERS =>
+        WDAEServer.discoverPeers
+      case WDAELib.REQUEST_PEERS =>
+        WDAEServer.requestPeers(socket)
+    }
 
     socket.close()
   }
