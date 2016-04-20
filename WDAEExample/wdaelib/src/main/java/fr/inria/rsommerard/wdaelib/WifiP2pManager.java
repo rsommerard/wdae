@@ -3,12 +3,9 @@ package fr.inria.rsommerard.wdaelib;
 import android.content.Context;
 import android.os.Looper;
 
-import fr.inria.rsommerard.wdaelib.task.DiscoverPeersTask;
+import fr.inria.rsommerard.wdaelib.task.DiscoverPeers;
 
 public class WifiP2pManager {
-
-    public static final String DISCOVER_PEERS =
-            "fr.inria.rsommerard.wdaelib.DISCOVER_PEERS";
 
     public static final String WIFI_P2P_STATE_CHANGED_ACTION =
             "fr.inria.rsommerard.wdaelib.STATE_CHANGED";
@@ -35,7 +32,7 @@ public class WifiP2pManager {
     public void discoverPeers(final Channel channel, final ActionListener listener) {
         listener.onSuccess();
 
-        new DiscoverPeersTask().execute();
+        new DiscoverPeers().execute();
     }
 
     public void requestPeers(final WifiP2pManager.Channel channel,
