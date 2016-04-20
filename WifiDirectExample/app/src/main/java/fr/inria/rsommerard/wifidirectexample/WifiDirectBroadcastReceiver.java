@@ -34,7 +34,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
             if (mManager != null) {
                 mManager.requestPeers(mChannel, new WifiP2pManager.PeerListListener() {
                     @Override
-                    public void onPeersAvailable(WifiP2pDeviceList peers) {
+                    public void onPeersAvailable(final WifiP2pDeviceList peers) {
                         Log.d(MainActivity.TAG, peers.toString());
                     }
                 });
