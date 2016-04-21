@@ -9,6 +9,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import fr.inria.rsommerard.wdaelib.WDAELib;
+import fr.inria.rsommerard.wdaelib.WDAEProtocol;
 
 public class StopDiscovery extends AsyncTask<Void, Void, Void> {
 
@@ -25,10 +26,10 @@ public class StopDiscovery extends AsyncTask<Void, Void, Void> {
             socket.connect(new InetSocketAddress(mServerAddress, mServerPort), mSocketTimeout);
 
             ObjectOutputStream oOStream = new ObjectOutputStream(socket.getOutputStream());
-            oOStream.writeObject(WDAELib.STOP_DISCOVERY);
+            oOStream.writeObject(WDAEProtocol.STOP_DISCOVERY);
             oOStream.flush();
 
-            Log.d(WDAELib.TAG, WDAELib.STOP_DISCOVERY + " sent to " + mServerAddress + ":" +
+            Log.d(WDAELib.TAG, WDAEProtocol.STOP_DISCOVERY + " sent to " + mServerAddress + ":" +
                     mServerPort);
 
             socket.close();

@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import fr.inria.rsommerard.wdaelib.WDAELib;
+import fr.inria.rsommerard.wdaelib.WDAEProtocol;
 import fr.inria.rsommerard.wdaelib.WifiP2pDevice;
 import fr.inria.rsommerard.wdaelib.WifiP2pDeviceList;
 import fr.inria.rsommerard.wdaelib.WifiP2pManager;
@@ -31,20 +32,18 @@ public class RequestPeers extends AsyncTask<WifiP2pManager.PeerListListener, Voi
             socket.connect(new InetSocketAddress(mServerAddress, mServerPort), mSocketTimeout);
 
             ObjectOutputStream oOStream = new ObjectOutputStream(socket.getOutputStream());
-            oOStream.writeObject(WDAELib.REQUEST_PEERS);
+            oOStream.writeObject(WDAEProtocol.REQUEST_PEERS);
             oOStream.flush();
 
-            Log.d(WDAELib.TAG, WDAELib.REQUEST_PEERS + " sent to " + mServerAddress + ":" +
+            Log.d(WDAELib.TAG, WDAEProtocol.REQUEST_PEERS + " sent to " + mServerAddress + ":" +
                     mServerPort);
 
             ObjectInputStream oIStream = new ObjectInputStream(socket.getInputStream());
             String response = oIStream.readObject().toString();
 
-            assert WDAELib.PEER.equals(response);
-
             WifiP2pDeviceList peers = new WifiP2pDeviceList();
 
-            while (!WDAELib.END.equals(response)) {
+            while (!WDAEProtocol.END_PEER.equals(response)) {
                 String name = oIStream.readObject().toString();
                 String address = oIStream.readObject().toString();
 

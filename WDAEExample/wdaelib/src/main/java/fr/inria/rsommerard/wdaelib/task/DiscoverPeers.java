@@ -9,6 +9,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import fr.inria.rsommerard.wdaelib.WDAELib;
+import fr.inria.rsommerard.wdaelib.WDAEProtocol;
 
 public class DiscoverPeers extends AsyncTask<Void, Void, Void> {
 
@@ -25,10 +26,10 @@ public class DiscoverPeers extends AsyncTask<Void, Void, Void> {
             socket.connect(new InetSocketAddress(mServerAddress, mServerPort), mSocketTimeout);
 
             ObjectOutputStream oOStream = new ObjectOutputStream(socket.getOutputStream());
-            oOStream.writeObject(WDAELib.DISCOVER_PEERS);
+            oOStream.writeObject(WDAEProtocol.DISCOVER_PEERS);
             oOStream.flush();
 
-            Log.d(WDAELib.TAG, WDAELib.DISCOVER_PEERS + " sent to " + mServerAddress + ":" +
+            Log.d(WDAELib.TAG, WDAEProtocol.DISCOVER_PEERS + " sent to " + mServerAddress + ":" +
                     mServerPort);
 
             socket.close();
