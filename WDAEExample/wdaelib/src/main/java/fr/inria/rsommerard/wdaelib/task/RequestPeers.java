@@ -17,10 +17,6 @@ import fr.inria.rsommerard.wdaelib.WifiP2pManager;
 
 public class RequestPeers extends AsyncTask<WifiP2pManager.PeerListListener, Void, Void> {
 
-    private final String mServerAddress = "10.0.2.2";
-    private final int mServerPort = 54412;
-    private final int mSocketTimeout = 1000;
-
     @Override
     protected Void doInBackground(final WifiP2pManager.PeerListListener... params) {
         Log.d(WDAELib.TAG, "RequestPeers");
@@ -29,14 +25,15 @@ public class RequestPeers extends AsyncTask<WifiP2pManager.PeerListListener, Voi
 
         Socket socket = new Socket();
         try {
-            socket.connect(new InetSocketAddress(mServerAddress, mServerPort), mSocketTimeout);
+            socket.connect(new InetSocketAddress(WDAELib.SERVER_ADDRESS, WDAELib.SERVER_PORT),
+                    WDAELib.SOCKET_TIMEOUT);
 
             ObjectOutputStream oOStream = new ObjectOutputStream(socket.getOutputStream());
             oOStream.writeObject(WDAEProtocol.REQUEST_PEERS);
             oOStream.flush();
 
-            Log.d(WDAELib.TAG, WDAEProtocol.REQUEST_PEERS + " sent to " + mServerAddress + ":" +
-                    mServerPort);
+            Log.d(WDAELib.TAG, WDAEProtocol.REQUEST_PEERS + " sent to " + WDAELib.SERVER_ADDRESS +
+                    ":" + WDAELib.SERVER_PORT);
 
             ObjectInputStream oIStream = new ObjectInputStream(socket.getInputStream());
             String response = oIStream.readObject().toString();

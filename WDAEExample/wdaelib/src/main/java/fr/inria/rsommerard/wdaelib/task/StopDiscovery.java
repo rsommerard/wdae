@@ -13,24 +13,21 @@ import fr.inria.rsommerard.wdaelib.WDAEProtocol;
 
 public class StopDiscovery extends AsyncTask<Void, Void, Void> {
 
-    private final String mServerAddress = "10.0.2.2";
-    private final int mServerPort = 54412;
-    private final int mSocketTimeout = 1000;
-
     @Override
     protected Void doInBackground(final Void... params) {
         Log.d(WDAELib.TAG, "StopDiscovery");
 
         Socket socket = new Socket();
         try {
-            socket.connect(new InetSocketAddress(mServerAddress, mServerPort), mSocketTimeout);
+            socket.connect(new InetSocketAddress(WDAELib.SERVER_ADDRESS, WDAELib.SERVER_PORT),
+                    WDAELib.SOCKET_TIMEOUT);
 
             ObjectOutputStream oOStream = new ObjectOutputStream(socket.getOutputStream());
             oOStream.writeObject(WDAEProtocol.STOP_DISCOVERY);
             oOStream.flush();
 
-            Log.d(WDAELib.TAG, WDAEProtocol.STOP_DISCOVERY + " sent to " + mServerAddress + ":" +
-                    mServerPort);
+            Log.d(WDAELib.TAG, WDAEProtocol.STOP_DISCOVERY + " sent to " + WDAELib.SERVER_ADDRESS +
+                    ":" + WDAELib.SERVER_PORT);
 
             socket.close();
         } catch (IOException e) {

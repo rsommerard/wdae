@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Starting wdaeserver..."
+
+./wdaeserver-1.0/bin/wdaeserver &
+
 echo "Starting emulator[5554]..."
 
 emulator64-x86 -avd AndroidAPI22x86 -no-skin -no-audio -no-window -no-boot-anim -noskin -gpu off -port 5554 &
@@ -27,7 +31,6 @@ echo "Installing the apk..."
 adb install -r /app-debug.apk
 adb logcat -c
 
-./wdaeserver-1.0/bin/wdaeserver &
 adb shell am start -n "fr.inria.rsommerard.wdaeexample/.MainActivity"
 
-adb logcat -s "wdae"
+adb logcat

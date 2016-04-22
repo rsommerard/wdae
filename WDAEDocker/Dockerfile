@@ -43,4 +43,4 @@ RUN unzip wdaeserver-1.0.zip \
 
 COPY entrypoint.sh .
 
-# ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

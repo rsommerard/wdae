@@ -22,6 +22,8 @@ public class WifiP2pManager {
 
     public static final int WIFI_P2P_STATE_ENABLED = 2;
 
+    public static final int ERROR = 0;
+
     public static final String EXTRA_WIFI_STATE = "wifi_p2p_state";
 
     public Channel initialize(final Context context,
@@ -31,9 +33,7 @@ public class WifiP2pManager {
     }
 
     public void discoverPeers(final Channel channel, final ActionListener listener) {
-        listener.onSuccess();
-
-        new DiscoverPeers().execute();
+        new DiscoverPeers().execute(listener);
     }
 
     public void requestPeers(final WifiP2pManager.Channel channel,
