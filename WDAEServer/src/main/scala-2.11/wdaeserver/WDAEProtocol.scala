@@ -1,3 +1,5 @@
+package wdaeserver
+
 
 object WDAEProtocol {
 

@@ -1,3 +1,7 @@
+package emulator
+
+import wdaeserver.WDAEIntent
+
 import scala.sys.process.Process
 import scala.util.{Failure, Success, Try}
 

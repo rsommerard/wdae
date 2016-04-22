@@ -1,5 +1,9 @@
+package wdaeserver
+
 import java.io.ObjectOutputStream
 import java.net.{InetAddress, Socket}
+
+import emulator.{Emulator, Peer}
 
 object WDAEServer {
 

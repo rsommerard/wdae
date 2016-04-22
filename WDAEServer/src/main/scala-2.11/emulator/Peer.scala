@@ -1,3 +1,5 @@
+package emulator
+
 import java.io.ObjectOutputStream
 
 class Peer(val name:String, val address: String) {

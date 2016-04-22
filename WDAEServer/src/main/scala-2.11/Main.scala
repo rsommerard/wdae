@@ -1,6 +1,8 @@
 import java.io.ObjectInputStream
 import java.net.ServerSocket
 
+import wdaeserver.{WDAEProtocol, WDAEServer}
+
 object Main extends App {
 
   val serverSocket: ServerSocket = new ServerSocket(54412)
