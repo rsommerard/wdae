@@ -27,8 +27,6 @@ RUN echo y | android update adb
 
 RUN echo no | android create avd -n AndroidAPI22x86 -t android-22
 
-COPY /apk/app-debug.apk .
-
 RUN wget http://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.tgz \
   && tar xzf scala-2.11.8.tgz \
   && rm -f scala-2.11.8.tgz
@@ -36,10 +34,11 @@ RUN wget http://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.tgz \
 ENV SCALA_HOME 	/scala-2.11.8
 ENV PATH ${PATH}:${SCALA_HOME}/bin
 
-COPY wdaeserver-1.0.zip .
+COPY /apk/app-debug.apk .
+COPY wdaeemulator-1.0.zip .
 
-RUN unzip wdaeserver-1.0.zip \
-  && rm wdaeserver-1.0.zip
+RUN unzip wdaeemulator-1.0.zip \
+  && rm wdaeemulator-1.0.zip
 
 COPY entrypoint.sh .
 

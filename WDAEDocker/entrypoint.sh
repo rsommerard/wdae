@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "Starting wdaeserver..."
+echo "Starting wdaeemulator..."
 
-./wdaeserver-1.0/bin/wdaeserver &
+./wdaeemulator-1.0/bin/wdaeemulator &
 
 echo "Starting emulator[5554]..."
 
