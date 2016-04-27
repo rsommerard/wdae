@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run --privileged android-api22-x86
+docker run -it --privileged android-api22-x86

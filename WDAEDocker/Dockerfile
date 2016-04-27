@@ -6,6 +6,7 @@ RUN apt-get update && apt-get -y install \
   telnet \
   wget \
   unzip \
+  redir \
   && add-apt-repository -y ppa:webupd8team/java \
   && apt-get update \
   && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
@@ -27,6 +28,8 @@ RUN echo y | android update adb
 
 RUN echo no | android create avd -n AndroidAPI22x86 -t android-22
 
+RUN sed -i -e 's/hw.ramSize=512/hw.ramSize=2048/g' /root/.android/avd/AndroidAPI22x86.avd/config.ini
+
 RUN wget http://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.tgz \
   && tar xzf scala-2.11.8.tgz \
   && rm -f scala-2.11.8.tgz
@@ -42,4 +45,6 @@ RUN unzip wdaeemulator-1.0.zip \
 
 COPY entrypoint.sh .
 
-ENTRYPOINT ["/entrypoint.sh"]
+COPY test.sh .
+
+#ENTRYPOINT ["/entrypoint.sh"]

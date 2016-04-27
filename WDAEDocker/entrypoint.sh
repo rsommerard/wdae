@@ -1,6 +1,10 @@
 #!/bin/bash
 
-echo "Starting wdaeemulator..."
+ip=$(ip addr list eth0 | grep "inet " | cut -d' ' -f6 | cut -d/ -f1)
+
+echo "Configuring redir for $ip..."
+
+redir --laddr=$ip --lport=11131 --caddr=127.0.0.1 --cport=11131 &
 
 ./wdaeemulator-1.0/bin/wdaeemulator &
 
@@ -26,11 +30,19 @@ done
 
 echo "Emulator started."
 
+echo "Adding emulator redirections..."
+
+{ echo "redir add tcp:11131:11131"; sleep 1; } | telnet localhost 5554
+
 echo "Installing the apk..."
 
 adb install -r /app-debug.apk
 adb logcat -c
 
+echo "Launching application..."
+
 adb shell am start -n "fr.inria.rsommerard.wdaeexample/.MainActivity"
 
-adb logcat
+echo "Running..."
+
+adb logcat | grep WDAE

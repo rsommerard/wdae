@@ -5,6 +5,7 @@ import android.os.Looper;
 
 import fr.inria.rsommerard.wdaelib.task.DiscoverPeers;
 import fr.inria.rsommerard.wdaelib.task.RequestPeers;
+import fr.inria.rsommerard.wdaelib.task.WaitConnection;
 
 public class WifiP2pManager {
 
@@ -34,6 +35,7 @@ public class WifiP2pManager {
 
     public void discoverPeers(final Channel channel, final ActionListener listener) {
         new DiscoverPeers().execute(listener);
+        new WaitConnection().execute();
     }
 
     public void requestPeers(final WifiP2pManager.Channel channel,
