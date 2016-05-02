@@ -2,6 +2,11 @@
 
 Wifi Direct Android Emulator
 
+## Deployment
+
+1. Get master node ip
+`ip route get 1 | awk '{print $NF;exit}'`
+
 ## Test
 
 All next commands are relative to the project root folder.

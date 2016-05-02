@@ -1,16 +1,27 @@
 #!/bin/bash
 
-cd WDAEDocker/
+# Docker part
+cd wdae-docker/
 ./clean_tmp_files.sh
 
-cd ..
-cd WDAEEmulator/
+# Scala part
+cd ../
+cd wdae-system/WDAEEmulator/
 sbt clean
 
-cd ..
+cd ../
 cd WDAEMachine/
 sbt clean
 
-cd ..
-cd WDAEExample/
+cd ../
+cd WDAEHello/
+sbt clean
+
+# Android part
+cd ../../
+cd wdae-android/WDAEExample/
+./gradlew clean
+
+cd ../
+cd WifiDirectExample/
 ./gradlew clean
