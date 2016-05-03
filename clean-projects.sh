@@ -1,11 +1,14 @@
 #!/bin/bash
 
 # Docker part
-cd wdae-docker/
+cd wdae-docker/hello-weave/
+./clean_tmp_files.sh
+
+cd ../wdae/
 ./clean_tmp_files.sh
 
 # Scala part
-cd ../
+cd ../../
 cd wdae-system/WDAEEmulator/
 sbt clean
 
@@ -14,7 +17,7 @@ cd WDAEMachine/
 sbt clean
 
 cd ../
-cd WDAEHello/
+cd Hello/
 sbt clean
 
 # Android part
