@@ -13,7 +13,7 @@ cd wdae-docker/wdae/
 
 # Scala part
 cd $ROOT
-cd wdae-system/Hello/
+cd wdae-system/HelloWeave/
 sbt clean
 
 cd $ROOT
