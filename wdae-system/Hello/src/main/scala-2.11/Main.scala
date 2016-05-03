@@ -2,6 +2,8 @@ import actor.{Master, Node}
 import akka.actor.{ActorSystem, Props}
 import com.typesafe.config.{ConfigFactory, ConfigValueFactory}
 
+import scala.io.Source
+
 object Main extends App {
   if (args.isEmpty) {
     println("Type needed: master or node")
@@ -15,7 +17,7 @@ object Main extends App {
       initAsMaster()
     case _ =>
       println("Type not recognized: master or node")
-      System.exit(0)
+      System.exit(1)
   }
 
   def initAsNode() = {
@@ -37,6 +39,12 @@ object Main extends App {
     system.actorOf(Props[Master], "master")
 
     println(s"Master started...")
+  }
+
+  for (ln <- Source.stdin.getLines()) {
+    if (ln == "exit") {
+      System.exit(0)
+    }
   }
 }
 

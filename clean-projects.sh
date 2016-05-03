@@ -1,30 +1,34 @@
 #!/bin/bash
 
+ROOT="$(pwd)"
+echo $ROOT
+
 # Docker part
 cd wdae-docker/hello-weave/
 ./clean_tmp_files.sh
 
-cd ../wdae/
+cd $ROOT
+cd wdae-docker/wdae/
 ./clean_tmp_files.sh
 
 # Scala part
-cd ../../
-cd wdae-system/WDAEEmulator/
+cd $ROOT
+cd wdae-system/Hello/
 sbt clean
 
-cd ../
-cd WDAEMachine/
+cd $ROOT
+cd wdae-system/WDAENode/WDAEEmulator/
 sbt clean
 
-cd ../
-cd Hello/
+cd $ROOT
+cd wdae-system/WDAENode/WDAEMachine/
 sbt clean
 
 # Android part
-cd ../../
+cd $ROOT
 cd wdae-android/WDAEExample/
 ./gradlew clean
 
-cd ../
-cd WifiDirectExample/
+cd $ROOT
+cd wdae-android/WifiDirectExample/
 ./gradlew clean
