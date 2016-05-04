@@ -32,3 +32,12 @@ cd wdae-android/WDAEExample/
 cd $ROOT
 cd wdae-android/WifiDirectExample/
 ./gradlew clean
+
+# Docker part
+cd $ROOT
+cd wdae-system/HelloWeave/docker/basic-machine/
+rm *.zip
+
+cd $ROOT
+cd wdae-system/HelloWeave/docker/docker-machine/
+rm *.zip
