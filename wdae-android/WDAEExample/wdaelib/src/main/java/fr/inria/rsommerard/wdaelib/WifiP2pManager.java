@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Looper;
 
 import fr.inria.rsommerard.wdaelib.task.DiscoverPeers;
+import fr.inria.rsommerard.wdaelib.task.Hello;
 import fr.inria.rsommerard.wdaelib.task.RequestPeers;
 import fr.inria.rsommerard.wdaelib.task.WaitConnection;
 
@@ -26,6 +27,10 @@ public class WifiP2pManager {
     public static final int ERROR = 0;
 
     public static final String EXTRA_WIFI_STATE = "wifi_p2p_state";
+
+    public WifiP2pManager() {
+        new Hello().execute();
+    }
 
     public Channel initialize(final Context context,
                               final Looper looper,

@@ -1,6 +1,8 @@
 import actor.Emulator
-import akka.actor.{ActorSystem, Props}
+import akka.actor.{ActorSelection, ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
+import message.Bye
+import wdaeemulator.WDAEServer
 
 import scala.io.Source
 
@@ -10,16 +12,17 @@ object Main extends App {
     System.exit(1)
   }
 
-  val machine = args(0)
-  val remotePath = s"akka.tcp://MachineSystem@$machine:2552/user/machine"
-
+  val remotePath = s"akka.tcp://MachineSystem@${args(0)}:2552/user/machine"
   val system = ActorSystem("EmulatorSystem", ConfigFactory.load("emulator"))
-  system.actorOf(Props(classOf[Emulator], remotePath), "emulator")
+
+  val emulator = system.actorOf(Props(classOf[Emulator], remotePath), "emulator")
 
   println("Emulator started...")
 
+  WDAEServer(emulator).start()
+
   for (ln <- Source.stdin.getLines()) {
-    if (ln == "exit") {
+    if (ln.toLowerCase == "exit") {
       System.exit(0)
     }
   }

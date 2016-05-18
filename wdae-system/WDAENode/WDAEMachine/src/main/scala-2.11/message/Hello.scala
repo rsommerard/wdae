@@ -1,3 +1,3 @@
 package message
 
-case class Hello(value: Int)
+case object Hello

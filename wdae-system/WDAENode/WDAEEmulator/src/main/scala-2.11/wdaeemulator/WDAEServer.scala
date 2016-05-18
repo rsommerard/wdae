@@ -3,24 +3,37 @@ package wdaeemulator
 import java.io.{ObjectInputStream, ObjectOutputStream}
 import java.net.{InetAddress, ServerSocket, Socket}
 
-import akka.actor.{Actor, ActorRef, ActorSystem, Props}
-import emulator.EmulatorBackup
+import akka.actor.ActorRef
+
+import scala.sys.process.Process
+import scala.util.{Failure, Success, Try}
 
 case object DiscoverPeers
-case object Hello
-case object Toto
-case class Neighbour(devices: Set[String])
 
 object WDAEServer {
+  def apply(emulator: ActorRef) = new WDAEServer(emulator)
+}
+
+class WDAEServer(emulator: ActorRef) {
+
+  val ADB = adbPath
+
+  private def adbPath: String = {
+    Try(Process("/home/romain/android-sdk/platform-tools/adb").!) match {
+      case Success(s) =>
+        return "/home/romain/android-sdk/platform-tools/adb"
+      case Failure(f) =>
+        return "/android-sdk-linux/platform-tools/adb"
+    }
+  }
+
+  def sendWifiP2pPeersChangedAction = {
+    Process(ADB + " -e shell am broadcast -a " + WDAEIntent.WIFI_P2P_PEERS_CHANGED_ACTION).run()
+  }
 
   val serverAddress = InetAddress.getLocalHost.getHostAddress
-  var neighbours: Set[String] = Set()
+  var neighbors: Set[String] = Set()
   val serverSocket: ServerSocket = new ServerSocket(54412)
-
-  val system = ActorSystem("EmulatorSystem")
-  val remotePath = "akka.tcp://MachineSystem@172.17.0.1:2552/user/machine"
-  val actor = system.actorOf(Props(classOf[EmulatorActor], remotePath), "emulator")
-  println("EmulatorActor started...")
 
   def start() = {
     println(s"WDAEServer started on ${serverSocket.getInetAddress.getHostAddress}:${serverSocket.getLocalPort}")
@@ -36,13 +49,15 @@ object WDAEServer {
           println(s"$request from " + socket.getLocalAddress + ":" + socket.getLocalPort)
 
           request match {
+            case WDAEProtocol.HELLO =>
+              println("HELLO received from the library emulator itself!")
             case WDAEProtocol.DISCOVER_PEERS =>
-              actor ! DiscoverPeers
-              WDAEServer.discoverPeers(neighbours)
+              emulator ! DiscoverPeers
+              discoverPeers(neighbors)
             case WDAEProtocol.STOP_DISCOVERY =>
-              WDAEServer.stopDiscovery
+              stopDiscovery
             case WDAEProtocol.REQUEST_PEERS =>
-              WDAEServer.requestPeers(socket, neighbours)
+              requestPeers(socket, neighbors)
           }
 
           socket.close()
@@ -59,7 +74,7 @@ object WDAEServer {
 
   def discoverPeers(neighbours: Set[String]) = {
     if (neighbours.nonEmpty) {
-      EmulatorBackup.sendWfiP2pPeersChangedAction
+      sendWifiP2pPeersChangedAction
     }
   }
 
@@ -85,22 +100,5 @@ object WDAEServer {
     oOStream.flush()
 
     socket.close()
-  }
-}
-
-class EmulatorActor(val remotePath: String) extends Actor {
-
-  val machineActor = context.actorSelection(remotePath)
-
-  machineActor ! Hello
-
-  override def receive: Receive = {
-    case Toto =>
-      println("Toto")
-    case Neighbour =>
-      println("Neighbour")
-    /*println("Set size: " + n.devices.size)
-    n.devices.foreach(d => neighbours += d)
-    println(neighbours)*/
   }
 }

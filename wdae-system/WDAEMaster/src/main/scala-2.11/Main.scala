@@ -12,7 +12,7 @@ object Main extends App {
   println("Master started...")
 
   for (ln <- Source.stdin.getLines()) {
-    if (ln == "exit") {
+    if (ln.toLowerCase == "exit") {
       System.exit(0)
     }
   }

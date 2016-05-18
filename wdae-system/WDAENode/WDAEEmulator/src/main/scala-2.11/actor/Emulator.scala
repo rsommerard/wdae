@@ -1,17 +1,21 @@
 package actor
 
-import akka.actor.Actor
-import message.Hello
+import akka.actor.{Actor, ActorRef, ActorSelection}
+import message.{Bye, Hello, Neighbors}
 
 class Emulator(val remotePath: String) extends Actor {
 
-  val machine = context.actorSelection(remotePath)
+  var neighbors: Set[ActorRef] = Set()
 
-  machine ! Hello(7)
+  val machine: ActorSelection = context.actorSelection(remotePath)
+
+  machine ! Hello
 
   override def receive: Receive = {
-    case hello: Hello =>
-      println(s"This is a Hello message with value: ${hello.value}")
+    case nghbrs: Neighbors =>
+      neighbors = nghbrs.list.filterNot(n => n == self)
+      println(s"me: $self")
+      println(s"neighbors: $neighbors")
     case _ =>
       println("Received unknown message")
   }
