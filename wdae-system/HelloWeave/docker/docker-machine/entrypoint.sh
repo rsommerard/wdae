@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MODE=$1
-ME=$(ip route | grep "10." | awk '{print $NF;exit}')
+ME=$(ip route | grep "src 10." | awk '{print $NF;exit}')
 
 echo "MODE: $MODE"
 echo "ME: $ME"

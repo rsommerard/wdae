@@ -4,7 +4,7 @@ import java.io.{ObjectInputStream, ObjectOutputStream}
 import java.net.{InetAddress, ServerSocket, Socket}
 
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
-import emulator.Emulator
+import emulator.EmulatorBackup
 
 case object DiscoverPeers
 case object Hello
@@ -59,7 +59,7 @@ object WDAEServer {
 
   def discoverPeers(neighbours: Set[String]) = {
     if (neighbours.nonEmpty) {
-      Emulator.sendWfiP2pPeersChangedAction
+      EmulatorBackup.sendWfiP2pPeersChangedAction
     }
   }
 

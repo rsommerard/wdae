@@ -1,40 +1,27 @@
-import akka.actor.{Actor, ActorRef, ActorSystem, Props}
-import com.typesafe.config.ConfigFactory
+import actor.Machine
+import akka.actor.{ActorSystem, Props}
+import com.typesafe.config.{ConfigFactory, ConfigValueFactory}
 
-case object DiscoverPeers
-case object Hello
-case object Toto
-case class Neighbour(devices: Set[String])
+import scala.io.Source
 
 object Main extends App {
-  val system = ActorSystem("MachineSystem", ConfigFactory.load("application"))
-  system.actorOf(Props[MachineActor], "machine")
+  if (args.isEmpty) {
+    println("Machine IP needed!")
+    System.exit(1)
+  }
 
-  println("MachineActor started...")
-}
+  val me = args(0)
+  val config = ConfigFactory.load("machine").withValue("akka.remote.netty.tcp.hostname",
+    ConfigValueFactory.fromAnyRef(me))
 
-class MachineActor extends Actor {
+  val system = ActorSystem("MachineSystem", config)
+  system.actorOf(Props[Machine], "machine")
 
-  var devices: Set[String] = Set()
-  var emulators: Set[ActorRef] = Set()
+  println("Machine started...")
 
-  override def receive: Receive = {
-    case Hello =>
-      println(s"[Hello] from ${sender.path.address.host.get}")
-      emulators += sender
-      sender ! Toto
-    case DiscoverPeers =>
-      println(s"[DiscoverPeers] from ${sender.path.address.host.get}")
-      // KNN HERE
-      // ----------------------------
-      // some stuff
-      // ----------------------------
-      devices += sender.path.address.host.get
-
-      // The next line is temp
-      val neighbours = devices
-
-      println(s"[DiscoverPeers] broadcast $neighbours")
-      emulators.foreach(e => e ! Neighbour(neighbours))
+  for (ln <- Source.stdin.getLines()) {
+    if (ln == "exit") {
+      System.exit(0)
+    }
   }
 }
