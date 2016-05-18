@@ -24,6 +24,10 @@ cd $ROOT
 cd wdae-system/WDAENode/WDAEMachine/
 sbt clean
 
+cd $ROOT
+cd wdae-system/WDAEMaster/
+sbt clean
+
 # Android part
 cd $ROOT
 cd wdae-android/WDAEExample/
@@ -40,4 +44,16 @@ rm *.zip
 
 cd $ROOT
 cd wdae-system/HelloWeave/docker/docker-machine/
+rm *.zip
+
+cd $ROOT
+cd wdae-system/WDAEMaster/docker/docker-machine/
+rm *.zip
+
+cd $ROOT
+cd wdae-system/WDAENode/WDAEEmulator/docker/docker-machine/
+rm *.zip
+
+cd $ROOT
+cd wdae-system/WDAENode/WDAEMachine/docker/docker-machine/
 rm *.zip
